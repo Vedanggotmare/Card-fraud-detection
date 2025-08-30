@@ -1,132 +1,136 @@
-Credit Card Fraud Detection
 
-This project builds machine learning models to detect fraudulent credit card transactions using the popular creditcard.csv dataset. The dataset is highly imbalanced, so techniques like SMOTE oversampling are applied to rebalance the classes before training.
+# Credit Card Fraud Detection
 
-📂 Project Structure
+This project builds machine learning models to detect fraudulent credit card transactions using the popular **creditcard.csv** dataset. The dataset is highly imbalanced, so techniques like **SMOTE oversampling** are applied to rebalance the classes before training.
+
+---
+
+## 📂 Project Structure
+
+```
 ├── creditcard.csv        # Dataset (not included here, download separately)
 ├── fraud_detection.py    # Main Python script (your code)
 ├── README.md             # Project documentation
+```
 
-📊 Dataset
+---
 
-Source: Kaggle - Credit Card Fraud Detection Dataset
+## 📊 Dataset
 
-Description:
+* **Source**: [Kaggle - Credit Card Fraud Detection Dataset](https://www.kaggle.com/mlg-ulb/creditcardfraud)
+* **Description**:
 
-Time: Seconds elapsed between this transaction and the first transaction in the dataset.
+  * `Time`: Seconds elapsed between this transaction and the first transaction in the dataset.
+  * `Amount`: Transaction amount.
+  * `V1 ... V28`: PCA-transformed features to protect confidentiality.
+  * `Class`: Target label (0 → normal, 1 → fraud).
 
-Amount: Transaction amount.
+The dataset is highly imbalanced with **fraudulent transactions < 0.2%** of the data.
 
-V1 ... V28: PCA-transformed features to protect confidentiality.
+---
 
-Class: Target label (0 → normal, 1 → fraud).
+## ⚙️ Preprocessing
 
-The dataset is highly imbalanced with fraudulent transactions < 0.2% of the data.
+1. **Scaling**: StandardScaler is applied to `Time` and `Amount`.
+2. **Train-Test Split**: Stratified 80/20 split to preserve class distribution.
+3. **Rebalancing**:
 
-⚙️ Preprocessing
+   * Used **SMOTE (Synthetic Minority Oversampling Technique)** to generate synthetic samples for the minority class (fraud).
 
-Scaling: StandardScaler is applied to Time and Amount.
+---
 
-Train-Test Split: Stratified 80/20 split to preserve class distribution.
+## 🤖 Models Used
 
-Rebalancing:
+1. **Logistic Regression**
 
-Used SMOTE (Synthetic Minority Oversampling Technique) to generate synthetic samples for the minority class (fraud).
+   * Class weight balanced.
+   * `max_iter=1000`.
 
-🤖 Models Used
+2. **XGBoost Classifier**
 
-Logistic Regression
+   * 200 estimators.
+   * Max depth = 5.
+   * Learning rate = 0.1.
+   * Subsample & column sampling = 0.8.
+   * `scale_pos_weight=1` (since SMOTE balances classes).
 
-Class weight balanced.
+---
 
-max_iter=1000.
+## 📈 Evaluation Metrics
 
-XGBoost Classifier
+* **Classification Report**: Precision, Recall, F1-score for fraud and non-fraud classes.
+* **ROC-AUC Score**: Evaluates discrimination ability of models.
+* **Confusion Matrix**: Heatmap for visualizing classification performance.
 
-200 estimators.
+---
 
-Max depth = 5.
+## 🔎 Feature Importance (XGBoost Only)
 
-Learning rate = 0.1.
-
-Subsample & column sampling = 0.8.
-
-scale_pos_weight=1 (since SMOTE balances classes).
-
-📈 Evaluation Metrics
-
-Classification Report: Precision, Recall, F1-score for fraud and non-fraud classes.
-
-ROC-AUC Score: Evaluates discrimination ability of models.
-
-Confusion Matrix: Heatmap for visualizing classification performance.
-
-🔎 Feature Importance (XGBoost Only)
-
-The project includes feature importance analysis using XGBoost’s feature importances.
+The project includes **feature importance analysis** using XGBoost’s feature importances.
 The results are plotted as a bar chart to highlight the most important predictors of fraud.
 
-🚀 How to Run
+---
 
-Clone the repository:
+## 🚀 How to Run
 
-git clone https://github.com/yourusername/credit-card-fraud-detection.git
-cd credit-card-fraud-detection
+1. Clone the repository:
 
+   ```bash
+   git clone https://github.com/yourusername/credit-card-fraud-detection.git
+   cd credit-card-fraud-detection
+   ```
 
-Install dependencies:
+2. Install dependencies:
 
-pip install -r requirements.txt
+   ```bash
+   pip install -r requirements.txt
+   ```
 
+3. Add the dataset `creditcard.csv` in the project directory.
 
-Add the dataset creditcard.csv in the project directory.
+4. Run the script:
 
-Run the script:
+   ```bash
+   python fraud_detection.py
+   ```
 
-python fraud_detection.py
+---
 
-📦 Requirements
+## 📦 Requirements
 
-Python 3.7+
-
-pandas
-
-numpy
-
-matplotlib
-
-seaborn
-
-scikit-learn
-
-imbalanced-learn
-
-xgboost
-
-tqdm
+* Python 3.7+
+* pandas
+* numpy
+* matplotlib
+* seaborn
+* scikit-learn
+* imbalanced-learn
+* xgboost
+* tqdm
 
 Install all with:
 
+```bash
 pip install pandas numpy matplotlib seaborn scikit-learn imbalanced-learn xgboost tqdm
+```
 
-📊 Results (Example)
+---
 
-Logistic Regression:
+## 📊 Results (Example)
 
-ROC-AUC ≈ 0.96
+* Logistic Regression:
 
-XGBoost:
+  * ROC-AUC ≈ 0.96
+* XGBoost:
 
-ROC-AUC ≈ 0.99
+  * ROC-AUC ≈ 0.99
 
-(Exact results may vary depending on random seed and dataset version.)
+*(Exact results may vary depending on random seed and dataset version.)*
 
-📌 Future Work
+---
 
-Hyperparameter tuning with GridSearch/RandomSearch.
+## 📌 Future Work
 
-Trying other algorithms (Random Forest, LightGBM, Neural Networks).
-
-Cost-sensitive learning instead of oversampling.
-
-W
+* Hyperparameter tuning with GridSearch/RandomSearch.
+* Trying other algorithms (Random Forest, LightGBM, Neural Networks).
+* Cost-sensitive learning instead of oversampling.
